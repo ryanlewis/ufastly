@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>uFastly</id>
+        <version>$version$</version>
+        <authors>Ryan McDonough,Ryan Lewis</authors>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Fastly support for Umbraco</description>
+        <dependencies>
+            <dependency id="UmbracoCms.Core" version="7.4.1" />
+            <dependency id="RestSharp" version="105.2.3" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="bin\Release\uFastly.dll" target="lib\net45\uFastly.dll" />
+        <file src="bin\Release\uFastly.pdb" target="lib\net45\uFastly.pdb" />
+    </files>
+</package>
