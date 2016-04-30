@@ -26,4 +26,4 @@ copy "%CACHED_NUGET%" .nuget\nuget.exe > nul
 
 :package
 IF NOT EXIST "pkg" md "pkg"
-.nuget\NuGet.exe pack uFastly\uFastly.csproj -OutputDirectory "pkg"
+.nuget\NuGet.exe pack uFastly\uFastly.csproj -OutputDirectory "pkg" -Prop Configuration=Release
