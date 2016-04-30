@@ -23,6 +23,7 @@ namespace uFastly
         private const string FastlyApplicationIdKey = "Fastly:ApplicationId";
         private const string FastlyMaxAgeKey = "Fastly:MaxAge";
         private const string FastlyApiKey = "Fastly:ApiKey";
+        private const string FastlyStaleWhileInvalidateKey = "Fastly:StaleWhileInvalidate";
 
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
@@ -72,6 +73,14 @@ namespace uFastly
             res.Cache.SetCacheability(HttpCacheability.Public);
             res.Cache.SetExpires(expires);
             res.Cache.SetMaxAge(new TimeSpan(0, 0, maxAge));
+
+            // stale while invalidate - https://docs.fastly.com/guides/performance-tuning/serving-stale-content
+            int staleWhileInvalidate;
+            if (int.TryParse(WebConfigurationManager.AppSettings[FastlyStaleWhileInvalidateKey], out staleWhileInvalidate) && staleWhileInvalidate > 0)
+            {
+                res.Cache.AppendCacheExtension($"stale-while-revalidate={staleWhileInvalidate}");
+            }
+            
         }
     }
 }
