@@ -24,6 +24,7 @@ namespace uFastly
         private const string FastlyMaxAgeKey = "Fastly:MaxAge";
         private const string FastlyApiKey = "Fastly:ApiKey";
         private const string FastlyStaleWhileInvalidateKey = "Fastly:StaleWhileInvalidate";
+        private const string FastlyDisableAzureARRAffinityKey = "Fastly:DisableAzureARRAffinity";
 
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
@@ -81,6 +82,12 @@ namespace uFastly
                 res.Cache.AppendCacheExtension($"stale-while-revalidate={staleWhileInvalidate}");
             }
             
+            // disable ARRAffinity Set-Cookie, which results in a cache miss - UNDERSTAND THE IMPLICATIONS OF THIS ON AZURE
+            bool disableARRAffinity;
+            if (bool.TryParse(WebConfigurationManager.AppSettings[FastlyDisableAzureARRAffinityKey], out disableARRAffinity))
+            {
+                res.Headers.Add("Arr-Disable-Session-Affinity", "True");
+            }
         }
     }
 }
