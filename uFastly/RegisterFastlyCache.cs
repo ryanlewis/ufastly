@@ -46,10 +46,11 @@ namespace uFastly
             }
         }
 
-        protected async void PurgeAll(IPublishingStrategy strategy, PublishEventArgs<IContent> e)
+        protected void PurgeAll(IPublishingStrategy strategy, PublishEventArgs<IContent> e)
         {
             var appId = WebConfigurationManager.AppSettings[FastlyApplicationIdKey];
-            await Client.PostAsync($"service/{appId}/purge_all", new StringContent(""));
+            var task = Client.PostAsync($"service/{appId}/purge_all", new StringContent(""));
+            task.Wait();
         }
 
         private void ConfigurePublishedContentRequestCaching(object sender, EventArgs eventArgs)
