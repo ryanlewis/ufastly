@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Configuration;
+using FastlyNet;
 using Umbraco.Core;
 using Umbraco.Core.Events;
 using Umbraco.Core.Models;
