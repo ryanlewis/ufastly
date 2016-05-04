@@ -16,7 +16,6 @@ namespace uFastly
 {
     public class RegisterFastlyCache : ApplicationEventHandler
     {
-        private static readonly HttpClient Client;
         private static readonly int MaxAge;
 
         private const string CacheControlPropertyName = "cacheControlMaxAge";
@@ -26,6 +25,8 @@ namespace uFastly
         private const string FastlyStaleWhileInvalidateKey = "Fastly:StaleWhileInvalidate";
         private const string FastlyDisableAzureARRAffinityKey = "Fastly:DisableAzureARRAffinity";
 
+        private Fastly Fastly = new Fastly(FastlyApiKey);
+
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
             PublishedContentRequest.Prepared += ConfigurePublishedContentRequestCaching;
@@ -34,11 +35,6 @@ namespace uFastly
 
         static RegisterFastlyCache()
         {
-            Client = new HttpClient {BaseAddress = new Uri("https://api.fastly.com/")};
-
-            Client.DefaultRequestHeaders.Accept.Clear();
-            Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            Client.DefaultRequestHeaders.Add("Fastly-Key", WebConfigurationManager.AppSettings[FastlyApiKey]);
 
             if (WebConfigurationManager.AppSettings.AllKeys.Contains(FastlyMaxAgeKey))
             {
@@ -46,10 +42,10 @@ namespace uFastly
             }
         }
 
-        protected void PurgeAll(IPublishingStrategy strategy, PublishEventArgs<IContent> e)
+        protected async void PurgeAll(IPublishingStrategy strategy, PublishEventArgs<IContent> e)
         {
             var appId = WebConfigurationManager.AppSettings[FastlyApplicationIdKey];
-            var task = Client.PostAsync($"service/{appId}/purge_all", new StringContent(""));
+            var task = Fastly.PurgeAll(appId);
             task.Wait();
         }
 
