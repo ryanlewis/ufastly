@@ -62,6 +62,10 @@
       <HintPath>..\packages\Examine.0.1.68.0\lib\Examine.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FastlyNet, Version=0.1.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FastlyNet.0.1.0.2\lib\net451\FastlyNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ImageProcessor, Version=2.3.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ImageProcessor.2.3.3.0\lib\net45\ImageProcessor.dll</HintPath>
       <Private>True</Private>
@@ -144,7 +148,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Fastly.cs" />
     <Compile Include="RegisterFastlyCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
