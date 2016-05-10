@@ -53,8 +53,8 @@ namespace uFastly
         protected void PurgeAll(IPublishingStrategy strategy, PublishEventArgs<IContent> e)
         {
             var appId = WebConfigurationManager.AppSettings[FastlyApplicationIdKey];
-            var task = Client.PostAsync($"service/{appId}/purge_all", new StringContent(""));
-            task.Wait();
+            using (var task = Client.PostAsync($"service/{appId}/purge_all", new StringContent("")))
+                task.Wait();
         }
 
         private void ConfigurePublishedContentRequestCaching(object sender, EventArgs eventArgs)
