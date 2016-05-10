@@ -25,11 +25,15 @@ namespace uFastly
         private const string FastlyApiKey = "Fastly:ApiKey";
         private const string FastlyStaleWhileInvalidateKey = "Fastly:StaleWhileInvalidate";
         private const string FastlyDisableAzureARRAffinityKey = "Fastly:DisableAzureARRAffinity";
+        private const string FastlyPurgeAllOnPublishKey = "Fastly:PurgeAllOnPublishKey";
 
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
             PublishedContentRequest.Prepared += ConfigurePublishedContentRequestCaching;
-            ContentService.Published += PurgeAll;
+
+            bool purgeOnPublish;
+            bool.TryParse(WebConfigurationManager.AppSettings[FastlyPurgeAllOnPublishKey], out purgeOnPublish);
+            if (purgeOnPublish) ContentService.Published += PurgeAll;
         }
 
         static RegisterFastlyCache()
@@ -85,9 +89,9 @@ namespace uFastly
             
             // disable ARRAffinity Set-Cookie, which results in a cache miss - UNDERSTAND THE IMPLICATIONS OF THIS ON AZURE
             bool disableARRAffinity;
-            if (bool.TryParse(WebConfigurationManager.AppSettings[FastlyDisableAzureARRAffinityKey], out disableARRAffinity))
+            if (bool.TryParse(WebConfigurationManager.AppSettings[FastlyDisableAzureARRAffinityKey], out disableARRAffinity) && disableARRAffinity)
             {
-                res.Headers.Add("Arr-Disable-Session-Affinity", "True");
+                //res.Headers.Add("Arr-Disable-Session-Affinity", "True");
             }
         }
     }
