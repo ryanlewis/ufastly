@@ -25,7 +25,7 @@ namespace uFastly
         private const string FastlyApiKey = "Fastly:ApiKey";
         private const string FastlyStaleWhileInvalidateKey = "Fastly:StaleWhileInvalidate";
         private const string FastlyDisableAzureARRAffinityKey = "Fastly:DisableAzureARRAffinity";
-        private const string FastlyPurgeAllOnPublishKey = "Fastly:PurgeAllOnPublishKey";
+        private const string FastlyPurgeAllOnPublishKey = "Fastly:PurgeAllOnPublish";
 
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
